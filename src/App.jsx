@@ -1,13 +1,36 @@
-import React from 'react'
-import CustomForm from './Components/CustomForm/CustomForm'
+import { Routes, Route } from 'react-router-dom';
+import { routes } from './Components/routes';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ProtectedRoute from './Components/ProtectedRoutes/ProtectedRoute';
 
 const App = () => {
   return (
-    <div>
-      <CustomForm/>
-      
-    </div>
-  )
-}
+    <>
+      <Routes>
+        {routes.map((items, index) => {
+          const isDashboard = items?.path === '/Dashboard'; 
 
-export default App
+          return (
+            <Route
+              key={index}
+              path={items.path}
+              element={
+                isDashboard ? (
+                  <ProtectedRoute>{items.element}</ProtectedRoute>
+                ) : (
+                  items.element
+                )
+              }
+            />
+          );
+        })}
+      </Routes>
+
+      <ToastContainer position="top-right" autoClose={3000} />
+    </>
+  );
+};
+
+export default App;

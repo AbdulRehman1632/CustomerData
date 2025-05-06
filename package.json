@@ -16,8 +16,14 @@
     "@mui/material": "^7.0.2",
     "@mui/x-date-pickers": "^8.2.0",
     "dayjs": "^1.11.13",
+    "file-saver": "^2.0.5",
+    "firebase": "^11.6.1",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^7.5.3",
+    "react-router-dom": "^7.5.3",
+    "react-toastify": "^11.0.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

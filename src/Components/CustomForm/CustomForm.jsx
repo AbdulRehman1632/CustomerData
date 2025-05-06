@@ -1,5 +1,4 @@
-// CustomerForm.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   MenuItem,
@@ -11,8 +10,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
+import { getAuth } from "firebase/auth";
+import { app } from "../../firebase";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-const CustomForm = () => {
+const CustomForm = ({ handleClose }) => {
   const [formData, setFormData] = useState({
     name: "",
     number: "",
@@ -21,9 +23,23 @@ const CustomForm = () => {
     query: "",
     remarks: "",
     createdAt: dayjs(),
+    quotationSend: "No",
+    createdBy: "",
   });
 
   const queryStatusOptions = ["Interested", "Not Interested", "Already Booked", "Not Respond"];
+  const quotationSendOptions = ["No", "Send Over Chat", "Send Over Email", "Send Over Chat and Call"];
+
+  const db = getFirestore(app);
+
+  useEffect(() => {
+    const auth = getAuth(app);
+    const user = auth.currentUser;
+
+    if (user) {
+      setFormData((prev) => ({ ...prev, createdBy: user.displayName }));
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,10 +50,21 @@ const CustomForm = () => {
     setFormData((prev) => ({ ...prev, createdAt: date }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    // yahan pe API call kar sakte ho ya Firebase me save
+    try {
+      const docRef = await addDoc(collection(db, "customerQueries"), {
+        ...formData,
+        createdAt: formData.createdAt.toDate(),
+      });
+
+      console.log("Document written with ID: ", docRef.id);
+
+      // ✅ Close the modal after successful submission
+      handleClose();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   };
 
   return (
@@ -103,6 +130,7 @@ const CustomForm = () => {
         <TextField
           label="Query Remarks"
           name="remarks"
+          required
           fullWidth
           margin="normal"
           multiline
@@ -110,9 +138,37 @@ const CustomForm = () => {
           value={formData.remarks}
           onChange={handleChange}
         />
+        <TextField
+          select
+          label="Quotation Send"
+          name="quotationSend"
+          fullWidth
+          margin="normal"
+          value={formData.quotationSend}
+          onChange={handleChange}
+          required
+        >
+          {quotationSendOptions.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          label="Created By"
+          name="createdBy"
+          fullWidth
+          margin="normal"
+          value={formData.createdBy}
+          InputProps={{
+            readOnly: true,
+          }}
+          required
+        />
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             label="Created At"
+            disabled
             value={formData.createdAt}
             onChange={handleDateChange}
             slotProps={{ textField: { fullWidth: true, margin: "normal" } }}
