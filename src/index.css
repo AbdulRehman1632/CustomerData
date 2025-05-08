@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: arial; 
+}
+
+
+
+@font-face {
+    font-family: arial;
+    src: url(../public/assets/fonts/arial/ARIAL.TTF);
+}
+
+
+
+h1,h2,h3,h4,h5,h6,a,li,p,th,tr,td{
+    font-family: arial;
+}

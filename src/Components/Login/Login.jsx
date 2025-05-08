@@ -66,9 +66,12 @@ import {
   
     return (
       <Paper elevation={3} sx={{ maxWidth: 400, mx: 'auto', mt: 5, p: 3 }}>
-        <Typography variant="h5" gutterBottom align="center">
-          {isReset ? 'Reset Password' : 'Log In'}
-        </Typography>
+        <Box textAlign="center" mb={2}>
+  <img src="../assets/images/rihla.png" alt="Logo" style={{ width: 80, height: 60 }} />
+  <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+    {isReset ? 'Reset Password' : 'Log In'}
+  </Typography>
+</Box>
         <form onSubmit={isReset ? handlePasswordReset : handleSubmit}>
           {isReset ? (
             <>

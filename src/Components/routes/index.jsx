@@ -1,8 +1,7 @@
-// import { Login } from "@mui/icons-material";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Dashboard from "../Dashboard/Dashboard"
-// import ProtectedRoute from "../ProtectedRoutes/ProtectedRoute";
+
 
 export const routes =[
     {
@@ -18,7 +17,7 @@ export const routes =[
         element:<Login/>
     },
     {
-        path: "/dashboard",
+        path: "/Dashboard",
         element: <Dashboard />,
       }
 ]

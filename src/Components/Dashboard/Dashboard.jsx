@@ -18,7 +18,9 @@ const Dashboard = () => {
     try {
       await signOut(auth);
       toast.success('Logged out successfully!');
-      navigate('/Login');
+      setTimeout(() => {
+        navigate('/Login');
+      }, 2000);
     } catch (error) {
       toast.error('Logout failed!');
       console.error(error);
@@ -29,24 +31,29 @@ const Dashboard = () => {
   const handleClose = () => setOpen(false);
 
   return (
-    <Box sx={{ p: 3 }}>
-      <h1>Dashboard</h1>
-
-      <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-        <Button variant="contained" color="primary" onClick={handleOpen}>
-          Add
-        </Button>
-        <Button variant="outlined" color="error" onClick={handleLogout}>
-          Logout
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          onClick={() => customerRef.current?.exportToExcel()}
-        >
-          Export to Excel
-        </Button>
-      </Box>
+    <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    {/* Logo + Heading */}
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+      <img src="../assets/images/rihla.png" alt="Rihla Logo" style={{ height: 40 }} />
+      <h1 style={{ margin: 0 }}>Rihla Client Dashboard</h1>
+    </Box>
+  
+    {/* Buttons */}
+    <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
+        Add
+      </Button>
+      <Button
+        variant="contained"
+        color="success"
+        onClick={() => customerRef.current?.exportToExcel()}
+      >
+        Export to Excel
+      </Button>
+      <Button variant="outlined" color="error" onClick={handleLogout}>
+        Logout
+      </Button>
+    </Box>
 
       {/* Modal */}
       <Modal
@@ -82,7 +89,7 @@ const Dashboard = () => {
             <CloseIcon fontSize="small" />
           </IconButton>
 
-          {/* Pass handleClose to CustomForm */}
+          
           <CustomForm handleClose={handleClose} />
 
           <Button onClick={handleClose} fullWidth sx={{ mt: 2 }} size="small">

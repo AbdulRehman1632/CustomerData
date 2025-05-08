@@ -20,6 +20,8 @@ import {
   import { toast } from "react-toastify";
   import { useNavigate } from "react-router";
   import { app } from "../../firebase";
+  import { FcGoogle } from "react-icons/fc"; // 🔸 Add this only in Register.jsx
+
   
   const Register = () => {
     const navigate = useNavigate();
@@ -60,7 +62,7 @@ import {
           
           
           await updateProfile(user, {
-            displayName: name, // Name you get from the input
+            displayName: name, 
           });
 
           console.log(user);
@@ -79,9 +81,12 @@ import {
   
     return (
       <Paper elevation={3} sx={{ maxWidth: 400, mx: "auto", mt: 5, p: 3 }}>
-        <Typography variant="h5" gutterBottom align="center">
-          Sign Up
-        </Typography>
+        <Box textAlign="center" mb={2}>
+  <img src="../assets/images/rihla.png" alt="Logo" style={{ width: 80, height: 60 }} />
+  <Typography variant="h5" gutterBottom fontWeight={"bold"}>
+    Sign Up
+  </Typography>
+</Box>
         <form onSubmit={HandleSignUp}>
           <TextField
             label="Full Name"
@@ -130,15 +135,16 @@ import {
         </form>
   
         <Button
-          variant="outlined"
-          color="primary"
-          fullWidth
-          sx={{ mt: 2 }}
-          onClick={handleGoogleSignUp}
-          disabled={loading}
-        >
-          {loading ? "Signing Up..." : "Sign Up with Google"}
-        </Button>
+  variant="outlined"
+  color="primary"
+  fullWidth
+  sx={{ mt: 2, display: "flex", alignItems: "center", justifyContent: "center", gap: 1 }}
+  onClick={handleGoogleSignUp}
+  disabled={loading}
+>
+  <FcGoogle size={22} />
+  {loading ? "Signing Up..." : "Sign Up with Google"}
+</Button>
   
         <Box sx={{ width: "100%", textAlign: "right", marginTop: "4px" }}>
           <Typography

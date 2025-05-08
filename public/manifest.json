@@ -1,0 +1,22 @@
+{
+    "name": "Rihla Client Dashboard",
+    "short_name": "Rihla",
+    "description": "Rihla Client Dashboard is a progressive web app for managing and accessing client-side features efficiently.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "icons": [
+      {
+        "src": "/icon/192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/icon/512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  

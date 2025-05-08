@@ -13,6 +13,7 @@ import dayjs from "dayjs";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebase";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 const CustomForm = ({ handleClose }) => {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ const CustomForm = ({ handleClose }) => {
     email: "",
     queryStatus: "",
     query: "",
+    city: "",
     remarks: "",
     createdAt: dayjs(),
     quotationSend: "No",
@@ -52,20 +54,25 @@ const CustomForm = ({ handleClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const docRef = await addDoc(collection(db, "customerQueries"), {
+      const dataToSubmit = {
         ...formData,
+        email: formData.email.trim() === "" ? "-" : formData.email,
         createdAt: formData.createdAt.toDate(),
-      });
-
+      };
+  
+      const docRef = await addDoc(collection(db, "customerQueries"), dataToSubmit);
+      toast.success("Form submitted successfully!");
+  
       console.log("Document written with ID: ", docRef.id);
-
-      // ✅ Close the modal after successful submission
+  
       handleClose();
     } catch (error) {
       console.error("Error adding document: ", error);
     }
   };
+  
 
   return (
     <Box sx={{ maxWidth: 600, mx: "auto", p: 3 }}>
@@ -86,6 +93,7 @@ const CustomForm = ({ handleClose }) => {
           label="Phone Number"
           name="number"
           fullWidth
+          type="number"
           margin="normal"
           value={formData.number}
           onChange={handleChange}
@@ -95,8 +103,19 @@ const CustomForm = ({ handleClose }) => {
           label="Email"
           name="email"
           fullWidth
+          type="email"
           margin="normal"
           value={formData.email}
+          onChange={handleChange}
+          
+        />
+         <TextField
+          label="City"
+          name="city"
+          fullWidth
+          margin="normal"
+          rows={3}
+          value={formData.city}
           onChange={handleChange}
           required
         />
@@ -116,26 +135,17 @@ const CustomForm = ({ handleClose }) => {
             </MenuItem>
           ))}
         </TextField>
+        
+
         <TextField
-          label="Query"
+          label="Query "
           name="query"
-          fullWidth
-          margin="normal"
-          multiline
-          rows={3}
-          value={formData.query}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          label="Query Remarks"
-          name="remarks"
           required
           fullWidth
           margin="normal"
           multiline
           rows={2}
-          value={formData.remarks}
+          value={formData.query}
           onChange={handleChange}
         />
         <TextField

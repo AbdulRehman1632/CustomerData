@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import { routes } from './Components/routes';
-
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from './Components/ProtectedRoutes/ProtectedRoute';
